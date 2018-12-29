@@ -79,4 +79,16 @@ public class UserService {
         }
         return blockedUser;
     }
+
+    public List<User> selectAll() throws ServiceException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        UserDao userDaoImpl = daoFactory.getUserDao();
+        List<User> users = new ArrayList<>();
+        try {
+            users = userDaoImpl.findAll();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return users;
+    }
 }

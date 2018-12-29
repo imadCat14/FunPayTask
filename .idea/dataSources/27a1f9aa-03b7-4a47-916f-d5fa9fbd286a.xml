@@ -1076,71 +1076,77 @@
       <ColNames>serverId</ColNames>
       <UnderlyingIndexName>server_serverId_uindex</UnderlyingIndexName>
     </key>
-    <column id="266" parent="236" name="userID">
+    <foreign-key id="266" parent="235" name="server_chronicle_chronicleId_fk">
+      <ColNames>chronicleId</ColNames>
+      <RefSchemaName>project_db3</RefSchemaName>
+      <RefTableName>chronicle</RefTableName>
+      <RefColNames>chronicleId</RefColNames>
+    </foreign-key>
+    <column id="267" parent="236" name="userID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="267" parent="236" name="roleID">
+    <column id="268" parent="236" name="roleID">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="268" parent="236" name="login">
+    <column id="269" parent="236" name="login">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="269" parent="236" name="mail">
+    <column id="270" parent="236" name="mail">
       <Position>4</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="270" parent="236" name="password">
+    <column id="271" parent="236" name="password">
       <Position>5</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="271" parent="236" name="status">
+    <column id="272" parent="236" name="status">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="272" parent="236" name="user_userID_uindex">
+    <index id="273" parent="236" name="user_userID_uindex">
       <ColNames>userID</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="273" parent="236" name="user_login_uindex">
+    <index id="274" parent="236" name="user_login_uindex">
       <ColNames>login</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="274" parent="236" name="fk_user_role_idx">
+    <index id="275" parent="236" name="fk_user_role_idx">
       <ColNames>roleID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="275" parent="236" name="PRIMARY">
+    <key id="276" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>userID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="276" parent="236" name="user_userID_uindex">
+    <key id="277" parent="236" name="user_userID_uindex">
       <ColNames>userID</ColNames>
       <UnderlyingIndexName>user_userID_uindex</UnderlyingIndexName>
     </key>
-    <key id="277" parent="236" name="user_login_uindex">
+    <key id="278" parent="236" name="user_login_uindex">
       <ColNames>login</ColNames>
       <UnderlyingIndexName>user_login_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="278" parent="236" name="fk_user_role">
+    <foreign-key id="279" parent="236" name="fk_user_role">
       <ColNames>roleID</ColNames>
       <RefSchemaName>project_db3</RefSchemaName>
       <RefTableName>role</RefTableName>
