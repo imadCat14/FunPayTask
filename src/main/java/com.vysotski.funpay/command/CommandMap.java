@@ -11,6 +11,8 @@ import com.vysotski.funpay.command.impl.LogInCommand;
 import com.vysotski.funpay.command.impl.LogOutCommand;
 import com.vysotski.funpay.command.impl.RegistrationCommand;
 import com.vysotski.funpay.command.impl.ShowReviewsCommand;
+import com.vysotski.funpay.command.impl.ShowServersCommand;
+import com.vysotski.funpay.command.impl.ShowUsersCommand;
 
 import java.util.EnumMap;
 
@@ -28,6 +30,8 @@ public class CommandMap {
 //
             this.put(CommandType.ADD_SERVER, new AddServerCommand());
             this.put(CommandType.BLOCK_USER, new BlockUserCommand());
+            this.put(CommandType.SHOW_USERS, new ShowUsersCommand());
+            this.put(CommandType.SHOW_SERVERS, new ShowServersCommand());
 //            this.put(CommandType.MARK_SERVER, new MarkServerCommand());
         }
     };

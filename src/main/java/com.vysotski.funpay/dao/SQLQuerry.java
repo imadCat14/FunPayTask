@@ -18,4 +18,7 @@ public class SQLQuerry {
     public static final String SQL_ADD_NEW_SERVER = "INSERT INTO server(serverId, chronicleId, severName, serverDescription) VALUES(?,?,?,?)";
     public static final String SQL_MARK_SERVER = "INSERT INTO mark(mark, userID, serverId) VALUES(?,?,?)";
     public static final String SQL_SELECT_SERVER_MARKS = "SELECT * FROM mark WHERE serverId=?";
+    public static final String SQL_INSERT_CHRONICLE = "INSERT INTO chronicle(chronicleName) VALUES(?)";
+    public static final String SQL_FIND_CHRONICLE_ID_BY_CHRONICLE_NAME = "SELECT chronicleId FROM chronicle WHERE chronicleName=?";
 }
+

@@ -14,11 +14,12 @@ import java.util.List;
 public interface AbstractDao<T extends Entity> {
     Logger logger = LogManager.getLogger();
     List<T> findAll() throws DAOException;
-    T findById(long id) throws DAOException;
+    boolean findById(long id) throws DAOException;
+
+
     boolean delete(long id);
     boolean delete(T entity);
     void create(T entity) throws DAOException;
-    T update(T entity);
     default void close(Statement statement){
         try{
             if (statement!=null){

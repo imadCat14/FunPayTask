@@ -1,6 +1,7 @@
 package com.vysotski.funpay.command.impl;
 
 import com.vysotski.funpay.command.Command;
+import com.vysotski.funpay.command.CommandException;
 import com.vysotski.funpay.entity.Review;
 import com.vysotski.funpay.resource.ConfigurationManager;
 import com.vysotski.funpay.service.ServerService;
@@ -15,14 +16,17 @@ public class ShowReviewsCommand implements Command {
     String page;
 
     @Override
-    public String execute(HttpServletRequest request) throws ServiceException {
+    public String execute(HttpServletRequest request) throws CommandException {
         long serverId = Long.parseLong(request.getParameter(PARAM_SERVER_ID));
-        List<Review> reviews = serverService.findReviews(serverId);
-        // Server server=userService.defineServer(serverId);
-        request.setAttribute("server", serverId);
-        request.setAttribute("reviews", reviews);
-        //request.setAttribute("", reviews);
-        page = ConfigurationManager.getProperty("path.page.reviews-page");
+        try {
+            List<Review> reviews = serverService.findReviews(serverId);
+            request.setAttribute("server", serverId);
+            request.setAttribute("reviews", reviews);
+            //request.setAttribute("", reviews);
+            page = ConfigurationManager.getProperty("path.page.reviews-page");
+        }catch (ServiceException e) {
+            throw new CommandException();
+        }
         return page;
     }
 }

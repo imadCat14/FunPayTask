@@ -4,6 +4,8 @@ public class Chronicle extends Entity {
     private long chronicleId;
     private String chronicleName;
 
+    public Chronicle(){}
+
     public Chronicle(long chronicleId, String chronicleName) {
         this.chronicleId = chronicleId;
         this.chronicleName = chronicleName;

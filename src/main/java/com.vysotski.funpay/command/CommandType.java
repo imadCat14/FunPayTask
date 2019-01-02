@@ -11,5 +11,7 @@ public enum CommandType {
     CHANGE_LANGUAGE,
     ADD_SERVER,
     BLOCK_USER,
-    MARK_SERVER
+    MARK_SERVER,
+    SHOW_USERS,
+    SHOW_SERVERS;
 }

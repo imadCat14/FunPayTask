@@ -6,7 +6,6 @@ import com.vysotski.funpay.entity.Chronicle;
 import com.vysotski.funpay.entity.Mark;
 import com.vysotski.funpay.entity.Review;
 import com.vysotski.funpay.entity.Server;
-import com.vysotski.funpay.entity.User;
 import com.vysotski.funpay.pool.ConnectionPool;
 import com.vysotski.funpay.pool.ConnectionPoolException;
 import com.vysotski.funpay.pool.ProxyConnection;
@@ -50,78 +49,51 @@ public class ServerDao implements AbstractDao<Server> {
         return aliens;
     }
 
-    @Override//TODO Return List<Server>
-    public Server findById(long id) throws DAOException {
+    @Override
+    public boolean findById(long id) throws DAOException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
-        User user = null;
-
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             statement = connection.prepareStatement(SQL_FIND_SERVER_BY_ID);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
-            if (!resultSet.next()) {
-                return null;
+            if (resultSet.next()) {
+                return true;
             } else {
-                return new Server();
+                return false;
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
         } finally {
-            UserDao userDao = new UserDao();
-            userDao.close(statement);
-            userDao.close(connection);
+            close(statement);
+            close(connection);
         }
     }
 
-    public Server findByName(String serverName) throws DAOException {
+    public boolean findServerByName(String serverName) throws DAOException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
-        User user = null;
-
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             statement = connection.prepareStatement(SQL_FIND_SERVER_BY_NAME);
             statement.setString(1, serverName);
             ResultSet resultSet = statement.executeQuery();
-            if (!resultSet.next()) {
-                return null;
+            if (resultSet.next()) {
+                return true;
             } else {
-                return new Server();
+                return false;
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
         } finally {
-            UserDao userDao = new UserDao();
-            userDao.close(statement);
-            userDao.close(connection);
+            close(statement);
+            close(connection);
         }
     }
 
     @Override
     public boolean delete(long id) {
-//        ProxyConnection connection = null;
-//        PreparedStatement statement = null;
-//        ResultSet resultSet = null;
-//        try {
-//            connection = ConnectionPool.getInstance().takeConnection();
-//            statement = connection.prepareStatement(SQL_DELETE_ALIEN_BY_ID);
-//            statement.setLong(1, id);
-//            resultSet = statement.executeQuery();
-//            if (!resultSet.next()) {
-//                return null;
-//            } else {
-//                return new Alien();
-//            }
-//        } catch (ConnectionPoolException | SQLException e) {
-//            throw new DaoException(e);
-//        } finally {
-//            UserDaoImpl userDAO = new UserDaoImpl();
-//            userDAO.close(statement);
-//            userDAO.close(connection);
-//        }
-
         return false;
     }
 
@@ -245,5 +217,48 @@ public class ServerDao implements AbstractDao<Server> {
     }
 
     public void createMark(Mark currentMark) {
+    }
+
+    public Chronicle createChronicle(Chronicle chronicle) throws DAOException{
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(SQL_INSERT_CHRONICLE);
+            statement.setString(1, chronicle.getChronicleName());
+            statement.executeUpdate();
+            return chronicle;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            close(statement);
+            close(connection);
+        }
+    }
+
+    public List<Chronicle> findChronicleByName(String homelandName) throws DAOException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        List<Chronicle> chronicles = new ArrayList<>();
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(SQL_FIND_CHRONICLE_ID_BY_CHRONICLE_NAME);
+            statement.setString(1, homelandName);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Chronicle chronicle = new Chronicle();
+                chronicle.setChronicleName(homelandName);
+                chronicle.setChronicleId(resultSet.getLong("chronicleId"));
+                chronicles.add(chronicle);
+            }
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            close(statement);
+            close(connection);
+        }
+
+        return chronicles;
     }
 }

@@ -3,9 +3,11 @@ package com.vysotski.funpay.service;
 import com.vysotski.funpay.dao.DAOException;
 import com.vysotski.funpay.dao.DAOFactory;
 import com.vysotski.funpay.dao.impl.ServerDao;
+import com.vysotski.funpay.entity.Chronicle;
 import com.vysotski.funpay.entity.Mark;
 import com.vysotski.funpay.entity.Review;
 import com.vysotski.funpay.entity.Server;
+import com.vysotski.funpay.validator.ServerValidator;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -73,7 +75,7 @@ public class ServerService {
         ServerDao serverDao = daoFactory.getServerDao();
         List<Server> servers = new ArrayList<>();
         try {
-            if (serverDao.findByName(serverName) == null) {
+            if (serverDao.findServerByName(serverName) == null) {
                 Server server = new Server();
                 server.setServerName(serverName);
                 server.setDescription(serverDescription);
@@ -114,5 +116,32 @@ public class ServerService {
             throw new ServiceException(e);
         }
         return marks;
+    }
+
+    public List<Server> createServer(String serverName, String serverChronicle, String serverDescription) throws ServiceException {
+        if (!ServerValidator.validateAlienData(serverName, serverChronicle, serverDescription)) {
+            throw new ServiceException("Incorrect data for new Server");
+        }
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        ServerDao serverDao = daoFactory.getServerDao();
+        List<Server> servers = new ArrayList<>();
+
+        try {
+            addNewChronicle(serverChronicle);
+            List<Chronicle> chronicles = serverDao.findChronicleByName(serverChronicle);
+            if (!serverDao.findServerByName(serverName)) {
+                Server server = new Server();
+                server.setServerName(serverName);
+                serverDao.findChronicleByName(serverChronicle);
+                Chronicle chronicle = new Chronicle(chronicles.get(0).getChronicleId(), chronicles.get(0).getChronicleName());
+                server.setChronicle(chronicle);
+                server.setDescription(serverDescription);
+                serverDao.create(server);
+                servers.add(server);
+            }
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return servers;
     }
 }

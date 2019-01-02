@@ -18,7 +18,7 @@ public class ShowUsersCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
-        String page = null;
+        String page;
         try {
             List<User> users = userService.selectAll();
             request.setAttribute("users", users);

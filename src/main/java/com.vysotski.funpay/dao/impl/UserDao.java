@@ -12,6 +12,7 @@ import com.vysotski.funpay.pool.ProxyConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.vysotski.funpay.dao.ColumnName.*;
@@ -79,32 +80,52 @@ public class UserDao implements AbstractDao<User> {
 
 
     @Override
-    public List<User> findAll() {
-        return null;
+    public List<User> findAll() throws DAOException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        List<User> users = new ArrayList<>();
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(SQL_SELECT_ALL_USERS);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setUserId(resultSet.getLong(USER_ID));
+                user.setLogin(resultSet.getString(USER_LOGIN));
+                String encodedPassword = resultSet.getString(PASSWORD);
+                user.setPassword(PasswordDecoder.decodePassword(encodedPassword));
+                user.setEmail(resultSet.getString(MAIL));
+                user.setUserRole(RoleType.takeRole(resultSet.getInt(ROLE_ID)));
+                user.setUserStatus(StatusEnum.takeStatus(resultSet.getInt(STATUS_ID)));
+                users.add(user);
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            close(statement);
+            close(connection);
+        }
+        return users;
     }
 
 
     @Override
-    public User findById(long id) throws DAOException {
+    public boolean findById(long id) throws DAOException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
-        User user = null;
-
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             statement = connection.prepareStatement(SQL_FIND_USER_BY_ID);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new User();
-
+                return true;
             } else {
-                return null;
+                return false;
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
         } finally {
-
             close(statement);
             close(connection);
         }

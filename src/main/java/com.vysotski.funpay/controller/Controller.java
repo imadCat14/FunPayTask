@@ -1,6 +1,7 @@
 package com.vysotski.funpay.controller;
 
 import com.vysotski.funpay.command.Command;
+import com.vysotski.funpay.command.CommandException;
 import com.vysotski.funpay.command.CommandFactory;
 import com.vysotski.funpay.pool.ConnectionPool;
 import com.vysotski.funpay.resource.ConfigurationManager;
@@ -19,12 +20,20 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
     }
 
     public void destroy() {
@@ -32,13 +41,13 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ServiceException {
         String page = null;
         CommandFactory client = new CommandFactory();
         Command command = client.defineCommand(request);
         try {
             page = command.execute(request);
-        } catch (ServiceException e) {
+        } catch (CommandException e) {
             e.printStackTrace();
         }
         if (page != null) {
