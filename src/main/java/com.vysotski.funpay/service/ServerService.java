@@ -18,7 +18,7 @@ public class ServerService {
     public List<Server> selectAll() throws ServiceException {
         DAOFactory daoFactory = DAOFactory.getInstance();
         ServerDao serverDao = daoFactory.getServerDao();
-        List<Server> servers = new ArrayList<>();
+        List<Server> servers;
         try {
             servers = serverDao.findAll();
         } catch (DAOException e) {
@@ -29,7 +29,7 @@ public class ServerService {
     public List<Review>findReviews(long serverId) throws ServiceException{
         DAOFactory daoFactory = DAOFactory.getInstance();
         ServerDao serverDao = daoFactory.getServerDao();
-        List<Review> reviews=new ArrayList<>();
+        List<Review> reviews;
         try {
             reviews = serverDao.findServerReviews(serverId);
         }catch (DAOException e){
@@ -43,7 +43,7 @@ public class ServerService {
         ServerDao serverDao = daoFactory.getServerDao();
         Server server = new Server();
         try {
-            server = serverDao.findById(serverId);
+            serverDao.findById(serverId);
         }catch (DAOException e){
             throw new ServiceException(e);
         }
@@ -70,24 +70,24 @@ public class ServerService {
         return currentReview;
     }
 
-    public List<Server> addServer(String serverName, String serverDescription, long chronicleId) throws ServiceException{
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        ServerDao serverDao = daoFactory.getServerDao();
-        List<Server> servers = new ArrayList<>();
-        try {
-            if (serverDao.findServerByName(serverName) == null) {
-                Server server = new Server();
-                server.setServerName(serverName);
-                server.setDescription(serverDescription);
-                server.getChronicle().setChronicleId(chronicleId);
-                serverDao.create(server);
-                servers.add(server);
-            }
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-        return servers;
-    }
+//    public List<Server> addServer(String serverName, String serverDescription, long chronicleId) throws ServiceException{
+//        DAOFactory daoFactory = DAOFactory.getInstance();
+//        ServerDao serverDao = daoFactory.getServerDao();
+//        List<Server> servers = new ArrayList<>();
+//        try {
+//            if (serverDao.findServerByName(serverName) == null) {
+//                Server server = new Server();
+//                server.setServerName(serverName);
+//                server.setDescription(serverDescription);
+//                server.getChronicle().setChronicleId(chronicleId);
+//                serverDao.create(server);
+//                servers.add(server);
+//            }
+//        } catch (DAOException e) {
+//            throw new ServiceException(e);
+//        }
+//        return servers;
+//    }
 
     public Mark addMarkServer(long userId, long serverId, int serverMark) throws ServiceException {
         if (serverMark==0) { //TODO nado range marks postavit'
@@ -109,7 +109,7 @@ public class ServerService {
     public List<Mark> findMarks(long serverId) throws ServiceException {
         DAOFactory daoFactory = DAOFactory.getInstance();
         ServerDao serverDao = daoFactory.getServerDao();
-        List<Mark> marks=new ArrayList<>();
+        List<Mark> marks;
         try {
             marks = serverDao.findServerMarks(serverId);
         }catch (DAOException e){
@@ -143,5 +143,18 @@ public class ServerService {
             throw new ServiceException(e);
         }
         return servers;
+    }
+
+    private void addNewChronicle(String serverChronicle) throws ServiceException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        ServerDao serverDao = daoFactory.getServerDao();
+        try {
+            List<Chronicle> homelands = serverDao.findChronicleByName(serverChronicle);
+            if (homelands.isEmpty()) {
+                serverDao.createChronicle(new Chronicle(serverChronicle));
+            }
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 }

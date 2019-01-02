@@ -8,6 +8,7 @@ import com.vysotski.funpay.entity.User;
 import com.vysotski.funpay.pool.ConnectionPool;
 import com.vysotski.funpay.pool.ConnectionPoolException;
 import com.vysotski.funpay.pool.ProxyConnection;
+import com.vysotski.funpay.util.PasswordDecoder;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -162,10 +163,6 @@ public class UserDao implements AbstractDao<User> {
         }
     }
 
-    @Override
-    public User update(User user) {
-        return null;
-    }
 
     public User blockUserById(long id) throws  DAOException{
         ProxyConnection connection = null;

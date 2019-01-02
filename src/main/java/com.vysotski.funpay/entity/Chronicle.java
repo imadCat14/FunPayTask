@@ -6,6 +6,10 @@ public class Chronicle extends Entity {
 
     public Chronicle(){}
 
+    public Chronicle(String chronicleName){
+        this.chronicleName = chronicleName;
+    }
+
     public Chronicle(long chronicleId, String chronicleName) {
         this.chronicleId = chronicleId;
         this.chronicleName = chronicleName;
