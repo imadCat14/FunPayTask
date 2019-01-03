@@ -15,10 +15,10 @@ public class UserService {
     public User login(String login, String password) throws ServiceException {
         String encodedPassword = new String(PasswordEncoder.encodePassword(password));
         DAOFactory daoFactory = DAOFactory.getInstance();
-        UserDao userDaoImpl = daoFactory.getUserDao();
+        UserDao userDao = daoFactory.getUserDao();
         User currentUser = new User();
         try {
-            currentUser = userDaoImpl.findByLoginAndPassword(login, encodedPassword);
+            currentUser = userDao.findByLoginAndPassword(login, encodedPassword);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

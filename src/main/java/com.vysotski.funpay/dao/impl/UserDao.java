@@ -41,8 +41,8 @@ public class UserDao implements AbstractDao<User> {
                 String currentPassword = resultSet.getString(PASSWORD);
                 String email = resultSet.getString(EMAIL);
                 int roleId = resultSet.getInt(ROLE_ID);
-                int statusId = resultSet.getInt(STATUS);
-                user = new User(currentLogin, currentPassword, email, RoleType.takeRole(roleId), StatusEnum.takeStatus(statusId));
+                int status = resultSet.getInt(STATUS);
+                user = new User(currentLogin, currentPassword, email, RoleType.takeRole(roleId), StatusEnum.takeStatus(status));
             }
             return user;
 
