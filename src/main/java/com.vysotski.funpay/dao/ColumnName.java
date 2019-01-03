@@ -5,9 +5,9 @@ public class ColumnName {
     public static String USER_ID = "userID";
     public static String USER_LOGIN = "login";
     public static String PASSWORD = "password";
-    public static String MAIL = "email";
+    public static String EMAIL = "email";
     public static String ROLE_ID = "roleID";
-    public static String STATUS_ID = "statusId";
+    public static String STATUS = "status";
 //server
     public static String SERVER_ID = "serverId";
     public static String SERVER_NAME = "serverName";

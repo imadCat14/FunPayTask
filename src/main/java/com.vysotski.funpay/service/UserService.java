@@ -34,7 +34,7 @@ public class UserService {
         List<User> users = new ArrayList<>();
         String encodedPassword = new String(PasswordEncoder.encodePassword(password));
         try {
-            if (userDao.findByLogin(login) == null) {
+            if (!userDao.findByLogin(login)) {
                 User user = new User();
                 user.setLogin(login);
                 user.setPassword(encodedPassword);
@@ -68,16 +68,14 @@ public class UserService {
         return page;
     }
 
-    public User blockUserById(long blockId){
+    public void blockUserById(long blockId){
         DAOFactory daoFactory = DAOFactory.getInstance();
         UserDao userDao = daoFactory.getUserDao();
-        User blockedUser = new User();
         try {
-           blockedUser =  userDao.blockUserById(blockId);
+            userDao.blockUserById(blockId);
         } catch (DAOException e) {
             e.printStackTrace();
         }
-        return blockedUser;
     }
 
     public List<User> selectAll() throws ServiceException {

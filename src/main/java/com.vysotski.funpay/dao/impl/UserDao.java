@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.vysotski.funpay.dao.ColumnName.*;
-import static com.vysotski.funpay.dao.SQLQuerry.*;
+import static com.vysotski.funpay.dao.SQLQuery.*;
 
 public class UserDao implements AbstractDao<User> {
 
     private static final int DEFAULT_USER_ROLE_ID = 2;
-    private static final int DEFAULT_USER_STATUS_ID = 1;
-//    private static final int BLOCKED_USER_STATUS_ID = 0;
+    private static final int DEFAULT_USER_STATUS = 1;
+//    private static final int BLOCKED_USER_STATUS = 0;
 
     public User findByLoginAndPassword(String login, String password) throws DAOException {
         ProxyConnection connection = null;
@@ -39,9 +39,9 @@ public class UserDao implements AbstractDao<User> {
             while (resultSet.next()) {
                 String currentLogin = resultSet.getString(USER_LOGIN);
                 String currentPassword = resultSet.getString(PASSWORD);
-                String email = resultSet.getString(MAIL);
+                String email = resultSet.getString(EMAIL);
                 int roleId = resultSet.getInt(ROLE_ID);
-                int statusId = resultSet.getInt(STATUS_ID);
+                int statusId = resultSet.getInt(STATUS);
                 user = new User(currentLogin, currentPassword, email, RoleType.takeRole(roleId), StatusEnum.takeStatus(statusId));
             }
             return user;
@@ -55,7 +55,7 @@ public class UserDao implements AbstractDao<User> {
     }
 
 
-    public User findByLogin(String login) throws DAOException {
+    public boolean findByLogin(String login) throws DAOException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         User user = null;
@@ -65,12 +65,7 @@ public class UserDao implements AbstractDao<User> {
             statement = connection.prepareStatement(SQL_FIND_BY_LOGIN);
             statement.setString(1, login);
             resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return new User();
-
-            } else {
-                return null;
-            }
+            return (resultSet.next()) ;
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -95,9 +90,9 @@ public class UserDao implements AbstractDao<User> {
                 user.setLogin(resultSet.getString(USER_LOGIN));
                 String encodedPassword = resultSet.getString(PASSWORD);
                 user.setPassword(PasswordDecoder.decodePassword(encodedPassword));
-                user.setEmail(resultSet.getString(MAIL));
+                user.setEmail(resultSet.getString(EMAIL));
                 user.setUserRole(RoleType.takeRole(resultSet.getInt(ROLE_ID)));
-                user.setUserStatus(StatusEnum.takeStatus(resultSet.getInt(STATUS_ID)));
+                user.setUserStatus(StatusEnum.takeStatus(resultSet.getInt(STATUS)));
                 users.add(user);
             }
         } catch (ConnectionPoolException | SQLException e) {
@@ -153,7 +148,7 @@ public class UserDao implements AbstractDao<User> {
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
             statement.setLong(4, DEFAULT_USER_ROLE_ID);
-            statement.setInt(5, DEFAULT_USER_STATUS_ID);
+            statement.setInt(5, DEFAULT_USER_STATUS);
             statement.executeUpdate();
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
@@ -164,21 +159,14 @@ public class UserDao implements AbstractDao<User> {
     }
 
 
-    public User blockUserById(long id) throws  DAOException{
+    public void blockUserById(long id) throws  DAOException{
         ProxyConnection connection = null;
         PreparedStatement statement = null;
-        User user = null;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             statement = connection.prepareStatement(SQL_BLOCK_USER_BY_ID);
             statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return new User();
-
-            } else {
-                return null;
-            }
+            statement.executeUpdate();
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
         } finally {

@@ -10,10 +10,10 @@ public class User extends Entity {
     private RoleType userRole;
     private StatusEnum userStatus;
 
-    public User(String login, String password, String email,RoleType userRole, StatusEnum userStatus) {
+    public User(String login, String password, String email, RoleType userRole, StatusEnum userStatus) {
         this.login = login;
         this.password = password;
-        this.email=email;
+        this.email = email;
         this.userRole = userRole;
         this.userStatus = userStatus;
     }
@@ -24,10 +24,10 @@ public class User extends Entity {
         this.userRole = userRole;
 
     }
-    public User(String login, String password,String email) {
+    public User(String login, String password, String email) {
         this.login = login;
         this.password = password;
-        this.email=email;
+        this.email = email;
 
 
     }

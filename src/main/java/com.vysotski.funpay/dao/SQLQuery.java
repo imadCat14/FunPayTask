@@ -1,9 +1,9 @@
 package com.vysotski.funpay.dao;
 
-public class SQLQuerry {
+public class SQLQuery {
     //user
     public static final String SQL_FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE login=? AND password=?";
-    public static final String SQL_INSERT_USER = "INSERT INTO user(login,password,mail,roleID,status) VALUES(?,?,?,?,1)";
+    public static final String SQL_INSERT_USER = "INSERT INTO user(login,password,email,roleID,status) VALUES(?,?,?,?,?)";
     public static final String SQL_FIND_BY_LOGIN = "SELECT * FROM user WHERE login =?";
     public static final String SQL_FIND_USER_BY_ID = "SELECT * FROM user WHERE userID =?";
     public static final String SQL_SELECT_ALL_USERS = "SELECT * FROM user";

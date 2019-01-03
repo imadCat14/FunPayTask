@@ -1101,7 +1101,7 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="270" parent="236" name="mail">
+    <column id="270" parent="236" name="email">
       <Position>4</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
@@ -1146,11 +1146,5 @@
       <ColNames>login</ColNames>
       <UnderlyingIndexName>user_login_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="279" parent="236" name="fk_user_role">
-      <ColNames>roleID</ColNames>
-      <RefSchemaName>project_db3</RefSchemaName>
-      <RefTableName>role</RefTableName>
-      <RefColNames>roleID</RefColNames>
-    </foreign-key>
   </database-model>
 </dataSource>

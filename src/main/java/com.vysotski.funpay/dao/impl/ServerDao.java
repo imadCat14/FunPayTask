@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.vysotski.funpay.dao.ColumnName.*;
-import static com.vysotski.funpay.dao.SQLQuerry.*;
+import static com.vysotski.funpay.dao.SQLQuery.*;
 
 public class ServerDao implements AbstractDao<Server> {
 //izmenit' TODO
