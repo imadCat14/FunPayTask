@@ -16,8 +16,8 @@
 <div class="login-page">
     <div class="form">
         <form class="login-form" name="loginForm" method="POST" action="controller">
-            <input type="hidden" name="command" value="add-server"/>
-            <input type="text" placeholder=<fmt:message key="label.serverName"/> name="serverName" value=""/>
+            <input type="hidden" name="command" value="add-alien"/>
+            <input type="text" placeholder=<fmt:message key="label.serverName"/> name="alienName" value=""/>
             <input type="text" placeholder=<fmt:message key="label.serverChronicle"/> name="serverChronicle" value=""/>
             <input type="text" placeholder=<fmt:message key="label.serverDescription"/> name="serverDescription" value=""/>
             <fmt:message key="label.submit.send" var="buttonValue"/>

@@ -1,24 +1,25 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="${sessionScope.locale}"/>
-<%--<fmt:setLocale value="${sessionScope.locale}"/>--%>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" scope="session"/>
 <fmt:bundle basename="jsp">
 
-    <html>
+    <html lang="${language}">
     <head>
         <link href="css/index.css" rel="stylesheet">
         <title><fmt:message key="label.title"/></title>
 
     </head>
+
     <body>
 
     <form  method="POST" action="controller">
         <input type="hidden" name="command" value="change-language"/>
         <button type="submit" name="language"
-                value="ru_RU" class="btn btn-default navbar-btn">RU</button>
+                value="ru" class="btn btn-default navbar-btn">RU</button>
         <button type="submit" name="language"
-                value="en_US" class="btn btn-default navbar-btn">EN</button>
+                value="en" class="btn btn-default navbar-btn">EN</button>
     </form>
 
 
@@ -27,8 +28,8 @@
         <div class="form">
             <form class="login-form" name="loginForm" method="POST" action="controller">
                 <input type="hidden" name="command" value="login"/>
-                <input type="text" placeholder="login" name="login" value=""/>
-                <input type="password" placeholder="password" name="password" value=""/>
+                <input type="text" placeholder=<fmt:message key="label.login"/> name="login" value=""/>
+                <input type="password" placeholder=<fmt:message key="label.password"/> name="password" value=""/>
                 <fmt:message key="label.submit.login" var="buttonValue"/>
                 <input type="submit" id="submit" value="${buttonValue}">
                 <p class="message"><fmt:message key="label.notregistrated"/> <a
@@ -45,6 +46,10 @@
     </div>
     </form>
 </fmt:bundle>
+
+
+
+
 </body>
 
 </html>

@@ -121,11 +121,6 @@ public class ServerDao implements AbstractDao<Server> {
         }
     }
 
-    @Override
-    public Server update(Server entity) {
-        return null;
-    }
-
 
     public List<Review> findServerReviews(long serverId) throws DAOException {
         ProxyConnection connection = null;
