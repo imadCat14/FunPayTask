@@ -30,9 +30,8 @@
             <input type="hidden" name="selectedUser" value="${users.login}"/>
             <select name="selectedStatus"onchange="this.form.submit()">
                 <option value="">change status</option>
-                <option value="1">Newcomer</option>
-                <option value="2">Experienced</option>
-                <option value="3">Blocked</option>
+                <option value="0">Blocked</option>
+                <option value="1">Active</option>
             </select>
         </form></td>
         <%--<td><c:out value=" ${aliens.homeland.homelandId}"></c:out></td>--%>

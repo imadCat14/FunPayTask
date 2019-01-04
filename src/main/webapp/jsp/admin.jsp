@@ -24,10 +24,10 @@
 
         <td><c:out value=" ${servers.serverId}"></c:out></td>
         <td><c:out value=" ${servers.serverName}"></c:out></td>
-        <td><c:out value=" ${servers.description}"></c:out></td>
-        <td><c:out value=" ${servers.homeland.homelandId}"></c:out></td>
+        <td><c:out value=" ${servers.serverDescription}"></c:out></td>
+        <td><c:out value=" ${servers.chronicle.chronicleId}"></c:out></td>
         <td><c:out value=" ${servers.chronicle.chronicleName}"></c:out></td>
-        <td><c:out value=" ${aliens.averageMark}"></c:out></td>
+        <td><c:out value=" ${servers.averageMark}"></c:out></td>
 
         <td>
             <form method="POST" action="controller">
@@ -42,5 +42,4 @@
 </table>
 
 </body>
-</fmt:bundle>
 </html>
