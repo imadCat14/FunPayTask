@@ -10,7 +10,7 @@ ${user.login}, ${user.userRole}, hello!
 <hr/>
 <p>Reviews page</p>
 
-${alien},  hello!
+${user.login},  hello!
 
 
 
@@ -38,9 +38,9 @@ ${alien},  hello!
         <%--<input type="hidden" name="command" value="add-review"/>--%>
         <div>
             <label>Введите комментарий</label><br>
-            <input type="text" name="textReview" placeholder="Enter review"><br>
+            <input type="text" name="textReview" placeholder="Insert review"><br>
             <input type="hidden" value="${server}" name="serverId"/>
-            <input type="submit" id="submit" value="add review">
+            <input type="submit" id="submit" value="add-review">
         </div>
 
 

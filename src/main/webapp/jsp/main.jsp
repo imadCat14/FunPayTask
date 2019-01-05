@@ -5,13 +5,13 @@
 <link href="css/index.css" rel="stylesheet">
 <link href="css/table.css" rel="stylesheet">
 <html>
-<head><title>Greetings</title>
+<head><title>Greetings, traveller!</title>
 </head>
 <body>
 <%@ include file="menuUser.jsp" %>
-<h3>Greetings</h3>
+<h3>Greetings, traveller!</h3>
 <hr/>
-<input type="hidden" name="userId" value=${user.userId}/>
+<input type="hidden" name="userID" value=${user.userID}/>
 
 ${user.login}, ${user.userName}, hello!
 <hr/>
@@ -26,7 +26,7 @@ ${user.login}, ${user.userName}, hello!
         <th><fmt:message key="label.serverChronicle"/></th>
         <th><fmt:message key="label.serverAverageMark"/></th>
     </tr>
-    <c:forEach var="aliens" items="${servers}">
+    <c:forEach var="servers" items="${servers}">
         <td><c:out value=" ${servers.serverId}"></c:out></td>
         <td><c:out value=" ${servers.serverName}"></c:out></td>
         <td><c:out value=" ${servers.description}"></c:out></td>

@@ -13,7 +13,7 @@ import java.util.List;
 public class AddServerCommand implements Command {
     private static final String PARAM_NAME_SERVER = "serverName";
     private static final String PARAM_NAME_DESCRIPTION = "serverDescription";
-    private static final String PARAM_NAME_CHRONICLE = "chronicle";
+    private static final String PARAM_NAME_CHRONICLE = "serverChronicle";
     private ServerService serverService = new ServerService();
 
     @Override
@@ -23,21 +23,21 @@ public class AddServerCommand implements Command {
         String serverDescription = request.getParameter(PARAM_NAME_DESCRIPTION);
         String page;
         try {
-            List<Server> aliens = serverService.createServer(serverName, serverChronicle, serverDescription);
-            if (aliens.isEmpty()) {
-                //request.setAttribute("alien",aliens);
-                page = ConfigurationManager.getProperty("path.page.new-alien-form-page");
+            List<Server> servers = serverService.createServer(serverName, serverChronicle, serverDescription);
+            if (servers.isEmpty()) {
+                //request.setAttribute("server",servers);
+                page = ConfigurationManager.getProperty("path.page.new-sever-form-page");
             } else {
-                aliens = serverService.selectAll();
-                request.setAttribute("aliens", aliens);
+                servers = serverService.selectAll();
+                request.setAttribute("servers", servers);
                 page = ConfigurationManager.getProperty("path.page.admin-page");
             }
-            // aliens = alienService.selectAll();
+            // servers = alienService.selectAll();
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        //TODO Massage if alien did not add
-        // request.setAttribute("aliens", aliens);
+        //TODO Massage if server did not add
+        // request.setAttribute("servers", servers);
 
         return page;
     }

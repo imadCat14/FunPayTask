@@ -8,7 +8,7 @@
     <link href="css/table.css" rel="stylesheet">
 </head>
 <body>
-<h3>WRRONG COMMAND</h3>
+<h3>WRONG COMMAND!</h3>
 
 <form name="goToMainPage" method="post" action="controller">
     <input type="hidden" name="command" value="go-to-main-page">

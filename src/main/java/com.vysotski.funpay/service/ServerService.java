@@ -118,8 +118,8 @@ public class ServerService {
         return marks;
     }
 
-    public List<Server> createServer(String serverName, String serverChronicle, String serverDescription) throws ServiceException {
-        if (!ServerValidator.validateAlienData(serverName, serverChronicle, serverDescription)) {
+    public List<Server> createServer(String serverName, String chronicleName, String serverDescription) throws ServiceException {
+        if (!ServerValidator.validateServerData(serverName, chronicleName, serverDescription)) {
             throw new ServiceException("Incorrect data for new Server");
         }
         DAOFactory daoFactory = DAOFactory.getInstance();
@@ -127,12 +127,12 @@ public class ServerService {
         List<Server> servers = new ArrayList<>();
 
         try {
-            addNewChronicle(serverChronicle);
-            List<Chronicle> chronicles = serverDao.findChronicleByName(serverChronicle);
+            addNewChronicle(chronicleName);
+            List<Chronicle> chronicles = serverDao.findChronicleByName(chronicleName);
             if (!serverDao.findServerByName(serverName)) {
                 Server server = new Server();
                 server.setServerName(serverName);
-                serverDao.findChronicleByName(serverChronicle);
+                serverDao.findChronicleByName(chronicleName);
                 Chronicle chronicle = new Chronicle(chronicles.get(0).getChronicleId(), chronicles.get(0).getChronicleName());
                 server.setChronicle(chronicle);
                 server.setDescription(serverDescription);
@@ -149,8 +149,8 @@ public class ServerService {
         DAOFactory daoFactory = DAOFactory.getInstance();
         ServerDao serverDao = daoFactory.getServerDao();
         try {
-            List<Chronicle> homelands = serverDao.findChronicleByName(serverChronicle);
-            if (homelands.isEmpty()) {
+            List<Chronicle> chronicles = serverDao.findChronicleByName(serverChronicle);
+            if (chronicles.isEmpty()) {
                 serverDao.createChronicle(new Chronicle(serverChronicle));
             }
         } catch (DAOException e) {

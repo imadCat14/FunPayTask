@@ -36,7 +36,7 @@ ${userName},  hello!
         <%--<input type="hidden" name="command" value="add-review"/>--%>
         <div>
             <label>Введите описание</label><br>
-            <input type="text" name="serverDescription" placeholder="Enter description"><br>
+            <input type="text" name="serverDescription" placeholder="Insert description"><br>
             <input type="hidden" value="${server}" name="serverId"/>
             <input type="submit" id="submit" value="add server">
         </div>
