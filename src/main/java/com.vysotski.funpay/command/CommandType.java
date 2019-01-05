@@ -13,5 +13,6 @@ public enum CommandType {
     BLOCK_USER,
     MARK_SERVER,
     SHOW_USERS,
+    CHANGE_STATUS,
     SHOW_SERVERS;
 }

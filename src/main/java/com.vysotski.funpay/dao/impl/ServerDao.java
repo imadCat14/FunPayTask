@@ -26,7 +26,7 @@ public class ServerDao implements AbstractDao<Server> {
     public List<Server> findAll() throws DAOException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
-        List<Server> aliens = new ArrayList<>();
+        List<Server> servers = new ArrayList<>();
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             statement = connection.prepareStatement(SQL_SELECT_ALL_SERVERS);
@@ -37,7 +37,8 @@ public class ServerDao implements AbstractDao<Server> {
                 server.setServerName(resultSet.getString(SERVER_NAME));
                 server.setDescription(resultSet.getString(SERVER_DESCRIPTION));
                 server.setChronicle(new Chronicle(resultSet.getLong(CHRONICLE_ID), resultSet.getString(CHRONICLE_NAME)));
-                aliens.add(server);
+                server.setAverageMark(resultSet.getDouble(AVERAGE_MARK));
+                servers.add(server);
             }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
@@ -46,7 +47,7 @@ public class ServerDao implements AbstractDao<Server> {
             close(statement);
             close(connection);
         }
-        return aliens;
+        return servers;
     }
 
     @Override

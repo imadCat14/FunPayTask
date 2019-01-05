@@ -5,6 +5,7 @@ import com.vysotski.funpay.command.impl.AddReviewCommand;
 import com.vysotski.funpay.command.impl.AddServerCommand;
 import com.vysotski.funpay.command.impl.BlockUserCommand;
 import com.vysotski.funpay.command.impl.ChangeLanguageCommand;
+import com.vysotski.funpay.command.impl.ChangeUserStatusCommand;
 import com.vysotski.funpay.command.impl.ErrorCommand;
 import com.vysotski.funpay.command.impl.GoToRegistrationPageCommand;
 import com.vysotski.funpay.command.impl.LogInCommand;
@@ -29,6 +30,7 @@ public class CommandMap {
             this.put(CommandType.CHANGE_LANGUAGE, new ChangeLanguageCommand());
 //
             this.put(CommandType.ADD_SERVER, new AddServerCommand());
+            this.put(CommandType.CHANGE_STATUS, new ChangeUserStatusCommand());
             this.put(CommandType.BLOCK_USER, new BlockUserCommand());
             this.put(CommandType.SHOW_USERS, new ShowUsersCommand());
             this.put(CommandType.SHOW_SERVERS, new ShowServersCommand());

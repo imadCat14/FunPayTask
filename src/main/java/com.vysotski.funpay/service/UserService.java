@@ -89,4 +89,14 @@ public class UserService {
         }
         return users;
     }
+
+    public void changeStatus(String selectedStatus, String selectedUser) throws ServiceException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        UserDao userDao = daoFactory.getUserDao();
+        try {
+            userDao.updateUserStatus(selectedStatus,selectedUser);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
 }

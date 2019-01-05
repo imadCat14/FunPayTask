@@ -175,4 +175,21 @@ public class UserDao implements AbstractDao<User> {
             close(connection);
         }
     }
+
+    public void updateUserStatus(String selectedStatus, String selectedUser) throws DAOException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(SQL_UPDATE_USER_STATUS);
+            statement.setInt(1, Integer.parseInt(selectedStatus));
+            statement.setString(2, selectedUser);
+            statement.executeUpdate();
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            close(statement);
+            close(connection);
+        }
+    }
 }

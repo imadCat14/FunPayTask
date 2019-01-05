@@ -26,7 +26,7 @@
         <td><c:out value=" ${users.email}"></c:out></td>
         <td><c:out value=" ${users.userStatus}"></c:out></td>
         <td><form action="controller" method="POST">
-            <input type="hidden" name="command" value="change-user-status"/>
+            <input type="hidden" name="command" value="change-status"/>
             <input type="hidden" name="selectedUser" value="${users.login}"/>
             <select name="selectedStatus"onchange="this.form.submit()">
                 <option value="">change status</option>

@@ -14,6 +14,8 @@ public class ColumnName {
     public static String SERVER_DESCRIPTION = "serverDescription";
     public static String CHRONICLE_ID = "chronicleId";
     public static String CHRONICLE_NAME = "chronicleName";
+    public static String AVERAGE_MARK = "AVG(mark.mark)";
+    public static String SERVER_MARK="serverMark";
 //review
     public static String TEXT_REVIEW = "reviewText";
     public static String DATE_REVIEW = "reviewDate";
