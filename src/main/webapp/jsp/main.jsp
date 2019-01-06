@@ -2,19 +2,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <fmt:setBundle basename="jsp"/>
-<link href="css/index.css" rel="stylesheet">
-<link href="css/table.css" rel="stylesheet">
-<html>
-<head><title>Greetings, traveller!</title>
+<head>
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
 </head>
-<body>
+<html>
 <%@ include file="menuUser.jsp" %>
 <h3>Greetings, traveller!</h3>
-<hr/>
-<input type="hidden" name="userID" value=${user.userID}/>
-
-${user.login}, ${user.userRole}, hello!
-<hr/>
 
 
 <table>
@@ -27,18 +21,21 @@ ${user.login}, ${user.userRole}, hello!
         <th><fmt:message key="label.serverAverageMark"/></th>
     </tr>
     <c:forEach var="servers" items="${servers}">
-        <td><c:out value=" ${servers.serverId}"></c:out></td>
-        <td><c:out value=" ${servers.serverName}"></c:out></td>
-        <td><c:out value=" ${servers.description}"></c:out></td>
-        <td><c:out value=" ${servers.chronicle.chronicleName}"></c:out></td>
-        <td><c:out value=" ${servers.averageMark}"></c:out></td>
+
+        <td><c:out value=" ${servers.serverId}"/></td>
+        <td><c:out value=" ${servers.serverName}"/></td>
+        <td><c:out value=" ${servers.description}"/></td>
+        <td><c:out value=" ${servers.chronicle.chronicleName}"/></td>
+        <td><c:out value=" ${servers.averageMark}"/></td>
+
+        <td>
 
 
         <td>
             <form method="POST" action="controller">
                 <input type="hidden" name="command" value="see-reviews"/>
                 <input type="hidden" value="${servers.serverId}" name="serverId"/>
-                <input value="Просмотреть" type="submit">
+                <input value="Watch reviews" type="submit">
             </form>
         </td>
         >
@@ -46,6 +43,5 @@ ${user.login}, ${user.userRole}, hello!
         </tr>
     </c:forEach>
 </table>
-<a href="controller?command=logout">Logout</a>
 </body>
 </html>

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class AddReviewCommand implements Command {
     Logger logger = LogManager.getLogger();
-    private static final String PARAM_REVIEW = "textReview";
+    private static final String PARAM_REVIEW = "reviewText";
     private static final String PARAM_SERVER_ID = "serverId";
     ServerService serverService = new ServerService();
 
@@ -23,12 +23,12 @@ public class AddReviewCommand implements Command {
     public String execute(HttpServletRequest request) throws CommandException {
         String page;
         try {
-            String textReview = request.getParameter(PARAM_REVIEW);
+            String reviewText = request.getParameter(PARAM_REVIEW);
             long serverId = Long.parseLong(request.getParameter(PARAM_SERVER_ID));
             long userId = Long.parseLong(request.getParameter("userID"));
             List<Review> reviews = serverService.findReviews(serverId);
-            Review review = serverService.addReview(textReview, serverId, 1);
-            // Server server=serverService.defineServer(serverId);
+            reviews.add(serverService.addReview(reviewText, serverId, 1));
+//            Server server=serverService.defineServer(serverId);
             request.setAttribute("userID", userId);
             request.setAttribute("serverId", serverId);
             request.setAttribute("reviews", reviews);

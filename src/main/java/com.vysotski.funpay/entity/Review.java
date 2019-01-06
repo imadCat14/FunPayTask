@@ -5,16 +5,16 @@ import java.sql.Date;
 public class Review extends Entity {
     private long userId;
     private long serverId;
-    private String textReview;
-    private Date dateReview;
+    private String reviewText;
+    private Date reviewDate;
 
     public Review() {
     }
 
-    public Review(long userId, long serverId, String textReview) {
+    public Review(long userId, long serverId, String reviewText) {
         this.userId = userId;
         this.serverId = serverId;
-        this.textReview = textReview;
+        this.reviewText = reviewText;
     }
 
     public long getUserId() {
@@ -33,19 +33,19 @@ public class Review extends Entity {
         this.serverId = serverId;
     }
 
-    public String getTextReview() {
-        return textReview;
+    public String getReviewText() {
+        return reviewText;
     }
 
-    public void setTextReview(String textReview) {
-        this.textReview = textReview;
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
     }
 
-    public Date getDateReview() {
-        return dateReview;
+    public Date getReviewDate() {
+        return reviewDate;
     }
 
-    public void setDateReview(Date dateReview) {
-        this.dateReview = dateReview;
+    public void setReviewDate(Date reviewDate) {
+        this.reviewDate = reviewDate;
     }
 }

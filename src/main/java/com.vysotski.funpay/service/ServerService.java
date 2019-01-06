@@ -50,8 +50,8 @@ public class ServerService {
         return server;
     }
 
-    public Review addReview( String textReview,long serverId,long userId) throws ServiceException {
-        if (textReview==null) {//TODO check Length
+    public Review addReview( String reviewText,long serverId,long userId) throws ServiceException {
+        if (reviewText==null) {//TODO check Length
             throw new ServiceException("Incorrect review data");
         }
         DAOFactory daoFactory = DAOFactory.getInstance();
@@ -60,8 +60,8 @@ public class ServerService {
         try {
             currentReview.setUserId(userId);
             currentReview.setServerId(serverId);
-            currentReview.setTextReview(textReview);
-            currentReview.setDateReview(Date.valueOf(LocalDate.now()));
+            currentReview.setReviewText(reviewText);
+            currentReview.setReviewDate(Date.valueOf(LocalDate.now()));
             serverDao.createReview(currentReview);
 
         }catch (DAOException e){

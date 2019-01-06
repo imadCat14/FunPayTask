@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<fmt:setBundle basename="jsp"/>
 <html>
 <head><title>Reviews</title>
 </head>
@@ -15,20 +17,20 @@ ${user.login},  hello!
 
 
 <table>
+    <caption><h1><fmt:message key="label.tableReviewsName"/></h1></caption>
     <form action="controller">
         <input type="hidden" name="command" value="add-review"/>
+    <tr>
+        <th><fmt:message key="label.id"/></th>
+        <th><fmt:message key="label.reviewText"/></th>
+        <th><fmt:message key="label.reviewDate"/></th>
 
-<tr>
-<th>user login</th>
-<th>review</th>
-<th>date</th>
-
-</tr>
+    </tr>
 <c:forEach var="reviews" items="${reviews}">
 
-    <td><c:out value=" ${reviews.userId}"></c:out></td>
-    <td><c:out value=" ${reviews.textReview}"></c:out></td>
-    <td><c:out value=" ${reviews.dateReview}"></c:out></td>
+    <td><c:out value=" ${reviews.userID}"></c:out></td>
+    <td><c:out value=" ${reviews.reviewText}"></c:out></td>
+    <td><c:out value=" ${reviews.reviewDate}"></c:out></td>
 
     </tr>
 </c:forEach>
@@ -37,8 +39,8 @@ ${user.login},  hello!
 <%--<form action="controller">--%>
         <%--<input type="hidden" name="command" value="add-review"/>--%>
         <div>
-            <label>Введите комментарий</label><br>
-            <input type="text" name="textReview" placeholder="Insert review"><br>
+            <label>Insert review</label><br>
+            <input type="text" name="reviewText" placeholder="Insert review"><br>
             <input type="hidden" value="${server}" name="serverId"/>
             <input type="submit" id="submit" value="add-review">
         </div>

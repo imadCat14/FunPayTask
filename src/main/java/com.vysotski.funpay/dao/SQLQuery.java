@@ -13,8 +13,8 @@ public class SQLQuery {
             "server.serverDescription,AVG(mark.mark), server.serverId  FROM server  LEFT JOIN mark " +
             "ON server.serverId=mark.serverId LEFT JOIN chronicle ON server.chronicleId=chronicle.chronicleId GROUP BY server.serverId";
     public static final String SQL_SELECT_SERVER_REVIEWS = "SELECT review.serverId, server.serverName, user.login," +
-            " reviews.textReview,review.reviewDate FROM review left join user on user.userID=review.userID" +
-            " left join alien on review.serverId=server.serverId where review.serverId=?";
+            " reviews.textReview,review.reviewDate FROM review LEFT JOIN user on user.userID=review.userID" +
+            " LEFT JOIN server on review.serverId=server.serverId where review.serverId=?";
     public static final String SQL_INSERT_REVIEW = "INSERT INTO review(serverId, userID, textReview,dateReview) VALUES(?,?,?,?)";
     public static final String SQL_FIND_SERVER_BY_ID = "SELECT * FROM server WHERE serverId =?";
     public static final String SQL_FIND_SERVER_BY_NAME = "SELECT * FROM server WHERE serverName=?";

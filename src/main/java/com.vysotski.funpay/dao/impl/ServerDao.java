@@ -136,8 +136,8 @@ public class ServerDao implements AbstractDao<Server> {
                 Review review = new Review();
                 review.setServerId(resultSet.getLong(SERVER_ID));
                 review.setUserId(resultSet.getLong(USER_ID));
-                review.setTextReview(resultSet.getString(TEXT_REVIEW));
-                review.setDateReview(resultSet.getDate(DATE_REVIEW));
+                review.setReviewText(resultSet.getString(TEXT_REVIEW));
+                review.setReviewDate(resultSet.getDate(DATE_REVIEW));
                 reviews.add(review);
             }
         } catch (ConnectionPoolException | SQLException e) {
@@ -157,8 +157,8 @@ public class ServerDao implements AbstractDao<Server> {
             statement = connection.prepareStatement(SQL_INSERT_REVIEW);
             statement.setLong(1, review.getServerId());
             statement.setLong(2, review.getUserId());
-            statement.setString(3, review.getTextReview());
-            statement.setDate(4, review.getDateReview());
+            statement.setString(3, review.getReviewText());
+            statement.setDate(4, review.getReviewDate());
 
             statement.executeUpdate();
         } catch (ConnectionPoolException | SQLException e) {

@@ -4,8 +4,8 @@
 	<br>
 	Login: ${user.login}, <br>${user.userRole}
 	<ul>
-		<li><a href="#"><fmt:message key="label.menu.servers"/></a></li>
-		<li><a href="controller?command=logout"><fmt:message key="label.menu.logout"/></a></li>
+			<li><a href="#"><fmt:message key="label.menu.servers"/></a></li>
 	</ul>
+	<li><a href="controller?command=logout"><fmt:message key="label.menu.logout"/></a></li>
 </nav>
 			
