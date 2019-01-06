@@ -13,7 +13,7 @@
 <hr/>
 <input type="hidden" name="userID" value=${user.userID}/>
 
-${user.login}, ${user.userName}, hello!
+${user.login}, ${user.userRole}, hello!
 <hr/>
 
 

@@ -22,12 +22,11 @@
     </tr>
     <c:forEach var="servers" items="${servers}">
 
-        <td><c:out value=" ${servers.serverId}"></c:out></td>
-        <td><c:out value=" ${servers.serverName}"></c:out></td>
-        <td><c:out value=" ${servers.serverDescription}"></c:out></td>
-        <td><c:out value=" ${servers.chronicle.chronicleId}"></c:out></td>
-        <td><c:out value=" ${servers.chronicle.chronicleName}"></c:out></td>
-        <td><c:out value=" ${servers.averageMark}"></c:out></td>
+        <td><c:out value=" ${servers.serverId}"/></td>
+        <td><c:out value=" ${servers.serverName}"/></td>
+        <td><c:out value=" ${servers.description}"/></td>
+        <td><c:out value=" ${servers.chronicle.chronicleName}"/></td>
+        <td><c:out value=" ${servers.averageMark}"/></td>
 
         <td>
             <form method="POST" action="controller">

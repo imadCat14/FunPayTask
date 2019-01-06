@@ -14,5 +14,6 @@ public enum CommandType {
     MARK_SERVER,
     SHOW_USERS,
     CHANGE_STATUS,
+    FILL_NEW_SERVER_DATA,
     SHOW_SERVERS;
 }
