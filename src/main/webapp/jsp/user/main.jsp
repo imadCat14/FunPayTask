@@ -2,17 +2,21 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <fmt:setBundle basename="jsp"/>
-<head>
-    <link href="css/index.css" rel="stylesheet">
-    <link href="css/table.css" rel="stylesheet">
-</head>
 <html>
+<head>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">--%>
+
+    <link href="css/footer.css" rel="stylesheet">
+</head>
+<body>
 <%@ include file="menuUser.jsp" %>
-<h3>Greetings, traveller!</h3>
+<input type="hidden" name="userID" value=${user.userID}/>
 
-
-<table>
-    <caption><h1><fmt:message key="label.tableServerName"/></h1></caption>
+<table class="table table-hover table-sm" id="resultTable">
+    <caption><h3><fmt:message key="label.tableServerName"/></h3></caption>
+    <thead class="thead-light">
     <tr>
         <th><fmt:message key="label.id"/></th>
         <th><fmt:message key="label.serverName"/></th>
@@ -20,6 +24,8 @@
         <th><fmt:message key="label.serverChronicle"/></th>
         <th><fmt:message key="label.serverAverageMark"/></th>
     </tr>
+    </thead>
+    <tbody>
     <c:forEach var="servers" items="${servers}">
 
         <td><c:out value=" ${servers.serverId}"/></td>
@@ -30,18 +36,21 @@
 
         <td>
 
-
+        </td>
         <td>
             <form method="POST" action="controller">
                 <input type="hidden" name="command" value="see-reviews"/>
-                <input type="hidden" value="${servers.serverId}" name="serverId"/>
-                <input value="Watch reviews" type="submit">
+                <input type="hidden" value="${servers.serverId}" name="serverIdId"/>
+                <input type="hidden" value="${servers.serverName}" name="serverName"/>
+                <fmt:message key="label.submit.seeReviews" var="buttonValue"/>
+                <input class="btn btn-outline-success btn-sm" type="submit" id="submit" value="${buttonValue}">
             </form>
         </td>
-        >
-        <br>
         </tr>
     </c:forEach>
+    </tbody>
 </table>
+</form>
+<%@ include file="/jsp/footer.jsp" %>
 </body>
 </html>

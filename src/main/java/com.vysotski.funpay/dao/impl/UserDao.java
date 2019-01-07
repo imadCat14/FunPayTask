@@ -111,7 +111,7 @@ public class UserDao implements AbstractDao<User> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();
-                user.setUserId(resultSet.getLong(USER_ID));
+                user.setUserID(resultSet.getLong(USER_ID));
                 user.setLogin(resultSet.getString(USER_LOGIN));
                 String encodedPassword = resultSet.getString(PASSWORD);
                 user.setPassword(PasswordDecoder.decodePassword(encodedPassword));

@@ -106,7 +106,7 @@ public class UserService {
         long userId = 0;
         try {
             User user =userDao.findByLoginForReview(login);
-            userId = user.getUserId();
+            userId = user.getUserID();
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

@@ -14,4 +14,17 @@
     <exception-type>java.lang.RuntimeException</exception-type>
     <location>/jsp/error/error.jsp</location>
   </error-page>
+  <filter>
+    <filter-name>pageRedirectSecurityFilter</filter-name>
+    <filter-class>com.vysotski.funpay.filter.SessionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>pageRedirectSecurityFilter</filter-name>
+    <url-pattern>/app/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>sessionSecurityFilter</filter-name>
+    <url-pattern>/jsp/*</url-pattern>
+  </filter-mapping>
 </web-app>
+

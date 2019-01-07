@@ -49,8 +49,8 @@ public class LogInCommand implements Command {
             }
             request.setAttribute("servers", servers);
             definedPage(currentUser);
-            String message = MessageManager.getProperty("message.blocked");
-            request.setAttribute("wrongInfoData", message);
+//            String message = MessageManager.getProperty("message.blocked");
+//            request.setAttribute("wrongInfoData", message);
         } else {
             String message = MessageManager.getProperty("message.loginerror");
             request.setAttribute("wrongInfoData", message);

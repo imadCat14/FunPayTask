@@ -20,7 +20,7 @@ public class ServerService {
     public List<Server> selectAll() throws ServiceException {
         DAOFactory daoFactory = DAOFactory.getInstance();
         ServerDao serverDao = daoFactory.getServerDao();
-        List<Server> servers;
+        List<Server> servers = new ArrayList<>();
         try {
             servers = serverDao.findAll();
         } catch (DAOException e) {

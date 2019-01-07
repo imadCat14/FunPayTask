@@ -4,7 +4,6 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/jsp_en.properties" />
     <file url="file://$PROJECT_DIR$/src/main/resources/jsp_ru.properties" />
     <custom-resource-bundle>
-      <file value="file://$PROJECT_DIR$/src/main/resources/database.properties" />
       <file value="file://$PROJECT_DIR$/src/main/resources/jsp_en.properties" />
       <file value="file://$PROJECT_DIR$/src/main/resources/jsp_ru.properties" />
       <base-name>jsp</base-name>

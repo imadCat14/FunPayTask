@@ -4,8 +4,8 @@
 <fmt:setBundle basename="jsp"/>
 <html>
 <head>
-    <link href="css/index.css" rel="stylesheet">
-    <link href="css/table.css" rel="stylesheet">
+            <%--<link href="css/index.css" rel="stylesheet">--%>
+            <%--<link href="css/table.css" rel="stylesheet">--%>
 </head>
 <body>
 <h3>WRONG COMMAND!</h3>

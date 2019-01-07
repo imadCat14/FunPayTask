@@ -1,7 +1,7 @@
 package com.vysotski.funpay.entity;
 
 public class User extends Entity {
-    private long userId;
+    private long userID;
     private String login;
     private String password;
     private String email;
@@ -28,16 +28,16 @@ public class User extends Entity {
         this.email = email;
     }
 
-    public User(long userId, String login) {
-        this.userId = userId;
+    public User(long userID, String login) {
+        this.userID = userID;
         this.login = login;
     }
 
     public User() {
     }
 
-    public User(long userId, String login, String password, String email, RoleType userRole, StatusEnum userStatus) {
-        this.userId = userId;
+    public User(long userID, String login, String password, String email, RoleType userRole, StatusEnum userStatus) {
+        this.userID = userID;
         this.login = login;
         this.password = password;
         this.email = email;
@@ -45,12 +45,12 @@ public class User extends Entity {
         this.userStatus = userStatus;
     }
 
-    public long getUserId() {
-        return userId;
+    public long getUserID() {
+        return userID;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUserID(long userID) {
+        this.userID = userID;
     }
 
     public String getLogin() {
@@ -96,7 +96,7 @@ public class User extends Entity {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "userID=" + userID +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", userRole=" + userRole +
@@ -111,7 +111,7 @@ public class User extends Entity {
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((login == null) ? 0 : login.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + (int) (userId ^ (userId >>> 32));
+        result = prime * result + (int) (userID ^ (userID >>> 32));
         result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
         result = prime * result + ((userStatus == null) ? 0 : userStatus.hashCode());
         return result;
@@ -140,7 +140,7 @@ public class User extends Entity {
                 return false;
         } else if (!password.equals(other.password))
             return false;
-        if (userId != other.userId)
+        if (userID != other.userID)
             return false;
         if (userRole != other.userRole)
             return false;
