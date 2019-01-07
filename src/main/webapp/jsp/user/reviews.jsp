@@ -16,7 +16,7 @@
     ${server.averageMark}
 </h3>
 <form action="controller" method="POST">
-    <input type="hidden" name="command" value="rate-server"/>
+    <input type="hidden" name="command" value="mark-server"/>
     <input type="hidden" value="${user.login}" name="login"/>
     <input type="hidden" value="${server.serverId}" name="serverId"/>
     <input type="hidden" value="${server.serverName}" name="serverName"/>
@@ -38,7 +38,7 @@
 <table class="table table-hover table-sm" id="myTable">
     <thead class="thead-light">
     <tr>
-        <th><fmt:message key="label.usersLogin"/></th>
+        <th><fmt:message key="label.userLogin"/></th>
         <th><fmt:message key="label.review"/></th>
         <th><fmt:message key="label.data"/></th>
     </tr>

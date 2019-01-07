@@ -14,8 +14,8 @@
 				<fmt:message key="label.menu.showServers"/></a>
 			</li>
 
-			<li class="nav-item"><a href="controller?command=show-users" class="nav-link">
-				<fmt:message key="label.users"/></a>
+			<%--<li class="nav-item"><a href="controller?command=show-users" class="nav-link">--%>
+				<%--<fmt:message key="label.users"/></a>--%>
 			</li>
 			<li class="nav-item"><a href="controller?command=logout" class="nav-link">
 				<fmt:message key="label.menu.logout"/></a>

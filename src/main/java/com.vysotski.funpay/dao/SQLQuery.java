@@ -11,7 +11,7 @@ public class SQLQuery {
     public static final String SQL_SELECT_USER_REVIEWS = "SELECT reviews.serverId, server.serverName, user.login," +
             " review.reviewText,review.reviewDate FROM review left join user on user.userID=review.userID" +
             " left join server on review.serverId=server.serverId where review.userID=?";
-    public static final String SQL_UPDATE_USER_STATUS = "UPDATE user set status=? where login=?";
+    public static final String SQL_UPDATE_USER_STATUS = "UPDATE user SET status=? where login=?";
 
     //server
     public static final String SQL_SELECT_ALL_SERVERS = "SELECT server.serverName, chronicle.chronicleId, chronicle.chronicleName," +

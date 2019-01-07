@@ -10,12 +10,12 @@
 <div style="width: 50%" class="form-group">
     <form class="login-form" name="loginForm" method="POST" action="controller">
         <h3><fmt:message key="label.server.fillForm"/></h3>
-        <input type="hidden" name="command" value="add-alien"/>
+        <input type="hidden" name="command" value="add-server"/>
 
-        <h5>Upload File:</h5>
-        <br/>
-        <INPUT type="file" name="content">
-        <br/><br/>
+        <%--<h5>Upload File:</h5>--%>
+        <%--<br/>--%>
+        <%--<INPUT type="file" name="content">--%>
+        <%--<br/><br/>--%>
 
 
         <label for="formServerInput"> <fmt:message key="label.serverName"/> </label>
