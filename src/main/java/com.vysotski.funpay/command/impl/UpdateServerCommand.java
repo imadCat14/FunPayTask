@@ -22,12 +22,12 @@ public class UpdateServerCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String alienName = request.getParameter(PARAM_SERVER_NAME).trim();
-        String alienDescription=request.getParameter(PARAM_SERVER_DESCRIPTION).trim();
+        String serverName = request.getParameter(PARAM_SERVER_NAME).trim();
+        String serverDescription=request.getParameter(PARAM_SERVER_DESCRIPTION).trim();
         List<Server> servers=new ArrayList<>();
         Server server=null;
         try{
-            serverService.updateDescription(alienDescription,alienName);
+            serverService.updateDescription(serverDescription,serverName);
             servers= serverService.selectAll();
             request.setAttribute("servers", servers);
             page = ConfigurationManager.getProperty("path.page.admin-page");

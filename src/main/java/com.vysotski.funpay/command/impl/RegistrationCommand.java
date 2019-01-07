@@ -22,7 +22,7 @@ public class RegistrationCommand implements Command {
     private UserService userService = new UserService();
 
 
-    public String execute(HttpServletRequest request) throws ServiceException {
+    public String execute(HttpServletRequest request) {
         String login = request.getParameter(PARAM_NAME_LOGIN);
         String password = request.getParameter(PARAM_NAME_PASSWORD);
         String email = request.getParameter(PARAM_NAME_EMAIL);

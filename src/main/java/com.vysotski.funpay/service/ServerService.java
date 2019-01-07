@@ -3,10 +3,12 @@ package com.vysotski.funpay.service;
 import com.vysotski.funpay.dao.DAOException;
 import com.vysotski.funpay.dao.DAOFactory;
 import com.vysotski.funpay.dao.impl.ServerDao;
+import com.vysotski.funpay.dao.impl.UserDao;
 import com.vysotski.funpay.entity.Chronicle;
 import com.vysotski.funpay.entity.Mark;
 import com.vysotski.funpay.entity.Review;
 import com.vysotski.funpay.entity.Server;
+import com.vysotski.funpay.validator.ReviewValidator;
 import com.vysotski.funpay.validator.ServerValidator;
 
 import java.sql.Date;
@@ -40,8 +42,20 @@ public class ServerService {
         return server;
     }
 
+    public List<Review> findReviews(long serverId) throws ServiceException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        ServerDao serverDao = daoFactory.getServerDao();
+        List<Review> reviews = new ArrayList<>();
+        try {
+            reviews = serverDao.findServerReviews(serverId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return reviews;
+    }
+
     public Review addReview( String reviewText,long serverId,long userId) throws ServiceException {
-        if (reviewText==null) {//TODO check Length
+        if (!ReviewValidator.validateReviewData(reviewText)) {
             throw new ServiceException("Incorrect review data");
         }
         DAOFactory daoFactory = DAOFactory.getInstance();
@@ -60,25 +74,33 @@ public class ServerService {
         return currentReview;
     }
 
-//    public List<Server> addServer(String serverName, String serverDescription, long chronicleId) throws ServiceException{
-//        DAOFactory daoFactory = DAOFactory.getInstance();
-//        ServerDao serverDao = daoFactory.getServerDao();
-//        List<Server> servers = new ArrayList<>();
-//        try {
-//            if (serverDao.findServerByName(serverName) == null) {
-//                Server server = new Server();
-//                server.setServerName(serverName);
-//                server.setDescription(serverDescription);
-//                server.getChronicle().setChronicleId(chronicleId);
-//                serverDao.create(server);
-//                servers.add(server);
-//            }
-//        } catch (DAOException e) {
-//            throw new ServiceException(e);
-//        }
-//        return servers;
-//    }
+    public List<Server> findServersByNameFragment(String serverName) throws ServiceException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        ServerDao serverDao = daoFactory.getServerDao();
+        List<Server> servers = new ArrayList<>();
+        try {
+            servers = serverDao.findServerInformationByName(serverName);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return servers;
+    }
 
+    public List<Server> findServerByName(String serverName) throws ServiceException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        ServerDao serverDao = daoFactory.getServerDao();
+        List<Server> servers = new ArrayList<>();
+        try {
+            servers = serverDao.takeServerInformationByName(serverName);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return servers;
+    }
+
+
+
+//    addmark
     public Mark markServer(long userID, long serverId, int mark) throws ServiceException {
         DAOFactory daoFactory = DAOFactory.getInstance();
         ServerDao serverDao = daoFactory.getServerDao();
@@ -90,19 +112,33 @@ public class ServerService {
                 currentMark.setMark(mark);
                 serverDao.insertMark(currentMark);
             }
-        } catch (DaoException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
         return currentMark;
     }
 
+    public void updateDescription(String serverDescription, String serverName) throws ServiceException {
+        if (!ServerValidator.validateServerDescription(serverDescription)) {
+            throw new ServiceException("Incorrect data for server description");
+        }
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        ServerDao serverDao = daoFactory.getServerDao();
+
+        try {
+            serverDao.updateDescription(serverDescription, serverName);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
     public List<Review> findUserReviews(long userId) throws ServiceException {
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        UserDaoImpl userDaoImpl = daoFactory.getUserDaoImpl();
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        UserDao userDao = daoFactory.getUserDao();
         List<Review> reviews = new ArrayList<>();
         try {
-            reviews = userDaoImpl.findUserReviews(userId);
-        } catch (DaoException e) {
+            reviews = userDao.findUserReviews(userId);
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
         return reviews;

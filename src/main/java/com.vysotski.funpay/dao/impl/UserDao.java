@@ -2,6 +2,7 @@ package com.vysotski.funpay.dao.impl;
 
 import com.vysotski.funpay.dao.AbstractDao;
 import com.vysotski.funpay.dao.DAOException;
+import com.vysotski.funpay.entity.Review;
 import com.vysotski.funpay.entity.RoleType;
 import com.vysotski.funpay.entity.StatusEnum;
 import com.vysotski.funpay.entity.User;
@@ -66,6 +67,30 @@ public class UserDao implements AbstractDao<User> {
             statement.setString(1, login);
             resultSet = statement.executeQuery();
             return (resultSet.next()) ;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            close(statement);
+            close(connection);
+        }
+    }
+
+    public User findByLoginForReview(String login) throws DAOException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        User user = null;
+        ResultSet resultSet = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(SQL_FIND_BY_LOGIN);
+            statement.setString(1, login);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String currentLogin = resultSet.getString(USER_LOGIN);
+                long currentUserId = resultSet.getLong(USER_ID);
+                user = new User(currentUserId, currentLogin);
+            }
+            return user;
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -191,5 +216,35 @@ public class UserDao implements AbstractDao<User> {
             close(statement);
             close(connection);
         }
+    }
+
+    public User update(User entity) {
+        return null;
+    }
+
+    public List<Review> findUserReviews(long userId) throws DAOException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        List<Review> reviews = new ArrayList<>();
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(SQL_SELECT_USER_REVIEWS);
+            statement.setLong(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Review review = new Review();
+                review.setServerName(resultSet.getString(SERVER_NAME));
+                review.setLogin(resultSet.getString(USER_LOGIN));
+                review.setReviewText(resultSet.getString(TEXT_REVIEW));
+                review.setReviewDate(resultSet.getDate(DATE_REVIEW));
+                reviews.add(review);
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            close(statement);
+            close(connection);
+        }
+        return reviews;
     }
 }

@@ -136,7 +136,6 @@ public class ServerDao implements AbstractDao<Server> {
         }
     }
 
-
     public List<Review> findServerReviews(long serverId) throws DAOException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
@@ -183,15 +182,15 @@ public class ServerDao implements AbstractDao<Server> {
         }
     }
 
-    public void markServer(Mark mark) throws DAOException{
+    public void insertMark(Mark mark) throws DAOException{
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             statement = connection.prepareStatement(SQL_MARK_SERVER);
-            statement.setInt(1, mark.getMark());
-            statement.setLong(2, mark.getUserId());
-            statement.setLong(3, mark.getServerId());
+            statement.setLong(1, mark.getUserId());
+            statement.setLong(2, mark.getServerId());
+            statement.setInt(3,mark.getMark());
 
             statement.executeUpdate();
         } catch (ConnectionPoolException | SQLException e) {
@@ -201,6 +200,8 @@ public class ServerDao implements AbstractDao<Server> {
             close(connection);
         }
     }
+
+
 
     public List<Mark> findServerMarks(long serverId) throws DAOException {
         ProxyConnection connection = null;
@@ -272,69 +273,82 @@ public class ServerDao implements AbstractDao<Server> {
         return chronicles;
     }
 
-    public List<Server> findServerInformationByName(String alienName) throws DaoException {
+    public List<Server> findServerInformationByName(String serverName) throws DAOException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
-        List<Alien>aliens=new ArrayList<>();
-        Alien alien=null;
+        List<Server>servers=new ArrayList<>();
+        Server server=null;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             statement = connection.prepareStatement(SQL_TAKE_SERVER_INFORMATION_BY_NAME);
-            statement.setString(1, '%'+alienName+'%');
+            statement.setString(1, '%'+serverName+'%');
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                alien = new Alien();
-                alien.setAlienId(resultSet.getLong(ALIEN_ID));
-                alien.setAlienName(resultSet.getString(ALIEN_NAME));
+                server = new Server();
+                server.setServerId(resultSet.getLong(SERVER_ID));
+                server.setServerName(resultSet.getString(SERVER_NAME));
 
-                alien.setImage(resultSet.getString("image"));
-
-                alien.setDescription(resultSet.getString(ALIEN_DESCRIPTION));
-                alien.setHomeland(new Homeland(resultSet.getLong(HOMELAND_ID), resultSet.getString(HOMELAND_NAME)));
-                alien.setAverageMark(resultSet.getDouble(AVERAGE_MARK));
-                aliens.add(alien);
+                server.setDescription(resultSet.getString(SERVER_DESCRIPTION));
+                server.setChronicle(new Chronicle(resultSet.getLong(CHRONICLE_ID), resultSet.getString(CHRONICLE_NAME)));
+                server.setAverageMark(resultSet.getDouble(AVERAGE_MARK));
+                servers.add(server);
 
             }
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw new DAOException(e);
         } finally {
 
             close(statement);
             close(connection);
         }
-        return aliens;
+        return servers;
     }
 
-    public List<Alien> takeAlienInformationByName(String alienName) throws DaoException {
+    public List<Server> takeServerInformationByName(String serverName) throws DAOException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
-        List<Alien>aliens=new ArrayList<>();
-        Alien alien=null;
+        List<Server>servers=new ArrayList<>();
+        Server server=null;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
-            statement = connection.prepareStatement(SQL_TAKE_ALIEN_INFORMATION_BY_NAME);
-            statement.setString(1, alienName);
+            statement = connection.prepareStatement(SQL_TAKE_SERVER_INFORMATION_BY_NAME);
+            statement.setString(1, serverName);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                alien = new Alien();
-                alien.setAlienId(resultSet.getLong(ALIEN_ID));
-                alien.setAlienName(resultSet.getString(ALIEN_NAME));
+                server = new Server();
+                server.setServerId(resultSet.getLong(SERVER_ID));
+                server.setServerName(resultSet.getString(SERVER_NAME));
 
-                alien.setImage(resultSet.getString("image"));
-
-                alien.setDescription(resultSet.getString(ALIEN_DESCRIPTION));
-                alien.setHomeland(new Homeland(resultSet.getLong(HOMELAND_ID), resultSet.getString(HOMELAND_NAME)));
-                alien.setAverageMark(resultSet.getDouble(AVERAGE_MARK));
-                aliens.add(alien);
+                server.setDescription(resultSet.getString(SERVER_DESCRIPTION));
+                server.setChronicle(new Chronicle(resultSet.getLong(CHRONICLE_ID), resultSet.getString(CHRONICLE_NAME)));
+                server.setAverageMark(resultSet.getDouble(AVERAGE_MARK));
+                servers.add(server);
 
             }
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw new DAOException(e);
         } finally {
 
             close(statement);
             close(connection);
         }
-        return aliens;
+        return servers;
+    }
+
+    public void updateDescription(String serverDescription, String serverName) throws DAOException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(SQL_UPDATE_SERVER_DESCRIPTION);
+            statement.setString(1, serverDescription);
+            statement.setString(2, serverName);
+            statement.executeUpdate();
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 }

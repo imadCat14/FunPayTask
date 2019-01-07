@@ -99,4 +99,17 @@ public class UserService {
             throw new ServiceException(e);
         }
     }
+
+    public long takeUserId( String login) throws ServiceException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        UserDao userDao = daoFactory.getUserDao();
+        long userId = 0;
+        try {
+            User user =userDao.findByLoginForReview(login);
+            userId = user.getUserId();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return userId;
+    }
 }

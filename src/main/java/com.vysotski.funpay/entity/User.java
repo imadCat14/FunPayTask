@@ -1,7 +1,5 @@
 package com.vysotski.funpay.entity;
 
-import java.util.Objects;
-
 public class User extends Entity {
     private long userId;
     private String login;
@@ -28,12 +26,14 @@ public class User extends Entity {
         this.login = login;
         this.password = password;
         this.email = email;
+    }
 
-
+    public User(long userId, String login) {
+        this.userId = userId;
+        this.login = login;
     }
 
     public User() {
-
     }
 
     public User(long userId, String login, String password, String email, RoleType userRole, StatusEnum userStatus) {
@@ -106,6 +106,46 @@ public class User extends Entity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), userId, userRole, userStatus, email, login, password);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((login == null) ? 0 : login.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + (int) (userId ^ (userId >>> 32));
+        result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
+        result = prime * result + ((userStatus == null) ? 0 : userStatus.hashCode());
+        return result;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        if (login == null) {
+            if (other.login != null)
+                return false;
+        } else if (!login.equals(other.login))
+            return false;
+        if (password == null) {
+            if (other.password != null)
+                return false;
+        } else if (!password.equals(other.password))
+            return false;
+        if (userId != other.userId)
+            return false;
+        if (userRole != other.userRole)
+            return false;
+        if (userStatus != other.userStatus)
+            return false;
+        return true;
     }
 }

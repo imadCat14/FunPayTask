@@ -8,6 +8,11 @@ public class SQLQuery {
     public static final String SQL_FIND_USER_BY_ID = "SELECT * FROM user WHERE userID =?";
     public static final String SQL_SELECT_ALL_USERS = "SELECT * FROM user";
     public static final String SQL_BLOCK_USER_BY_ID = "UPDATE * user SET status=0 WHERE userID=?";
+    public static final String SQL_SELECT_USER_REVIEWS = "SELECT reviews.serverId, server.serverName, user.login," +
+            " review.reviewText,review.reviewDate FROM review left join user on user.userID=review.userID" +
+            " left join server on review.serverId=server.serverId where review.userID=?";
+    public static final String SQL_UPDATE_USER_STATUS = "UPDATE user set status=? where login=?";
+
     //server
     public static final String SQL_SELECT_ALL_SERVERS = "SELECT server.serverName, chronicle.chronicleId, chronicle.chronicleName," +
             "server.serverDescription,AVG(mark.mark), server.serverId  FROM server  LEFT JOIN mark " +
@@ -24,8 +29,11 @@ public class SQLQuery {
     public static final String SQL_SELECT_SERVER_MARKS = "SELECT * FROM mark WHERE serverId=?";
     public static final String SQL_INSERT_CHRONICLE = "INSERT INTO chronicle(chronicleName) VALUES(?)";
     public static final String SQL_FIND_CHRONICLE_ID_BY_CHRONICLE_NAME = "SELECT chronicleId FROM chronicle WHERE chronicleName=?";
-    public static final String SQL_UPDATE_USER_STATUS = "UPDATE user set status=? where login=?";
-    public static final String SQL_FIND_SERVER_MARK_FROM_USER = "";
-    public static final String SQL_TAKE_SERVER_INFORMATION_BY_NAME = "";
+    public static final String SQL_FIND_SERVER_MARK_FROM_USER = "SELECT mark FROM mark WHERE userID=? AND serverId=?";
+    public static final String SQL_TAKE_SERVER_INFORMATION_BY_NAME = "SELECT server.serverId,server.serverName" +
+            " chronicle.chronicleId, chronicle.chronicleName, server.serverDescription,AVG(mark.mark) " +
+            "FROM server  LEFT JOIN mark ON server.serverId=mark.serverId LEFT JOIN chronicle " +
+            "ON server.chronicleId=chronicle.chronicleId WHERE serverName LIKE ? GROUP BY server.serverName";
+    public static final String SQL_UPDATE_SERVER_DESCRIPTION = "UPDATE server SET serverDescription=? where serverName=?";
 }
 

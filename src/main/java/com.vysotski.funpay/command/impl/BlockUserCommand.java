@@ -1,7 +1,6 @@
 package com.vysotski.funpay.command.impl;
 
 import com.vysotski.funpay.command.Command;
-import com.vysotski.funpay.command.CommandException;
 import com.vysotski.funpay.entity.User;
 import com.vysotski.funpay.resource.ConfigurationManager;
 import com.vysotski.funpay.service.ServiceException;
@@ -18,7 +17,7 @@ public class BlockUserCommand implements Command {
     private String page;
 
     @Override
-    public String execute(HttpServletRequest request) throws CommandException {
+    public String execute(HttpServletRequest request) {
         String userStatus = request.getParameter(PARAM_STATUS);
         long userId = Long.parseLong(request.getParameter(PARAM_USER_ID));
         try{
@@ -26,7 +25,7 @@ public class BlockUserCommand implements Command {
             List<User> users=userService.selectAll();
             request.setAttribute("users",users);
         }catch (ServiceException e){
-            throw new CommandException(e);
+//            throw new CommandException(e);
         }
         page = ConfigurationManager.getProperty("path.page.users-page");
         return page;

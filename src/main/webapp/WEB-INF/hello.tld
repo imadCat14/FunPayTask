@@ -13,7 +13,7 @@
 
     <tag>
         <name>hello</name>
-        <tag-class>com.vysotski.funpay.tag.HelloTag</tag-class>
+        <tag-class>com.vysotski.funpay.tag.FooterTag</tag-class>
         <body-content>empty</body-content>
         <description>
             Hello World Tag example
