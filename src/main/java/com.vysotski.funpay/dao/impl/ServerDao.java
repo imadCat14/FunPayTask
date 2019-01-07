@@ -72,6 +72,24 @@ public class ServerDao implements AbstractDao<Server> {
         }
     }
 
+    public boolean findMarkByUserIdAndServerId(long userID,long serverId) throws DAOException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(SQL_FIND_SERVER_MARK_FROM_USER);
+            statement.setLong(1, userID);
+            statement.setLong(2, serverId);
+            ResultSet resultSet = statement.executeQuery();
+            return (resultSet.next());
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            close(statement);
+            close(connection);
+        }
+    }
+
     public boolean findServerByName(String serverName) throws DAOException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
@@ -80,11 +98,7 @@ public class ServerDao implements AbstractDao<Server> {
             statement = connection.prepareStatement(SQL_FIND_SERVER_BY_NAME);
             statement.setString(1, serverName);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return (resultSet.next());
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -110,9 +124,9 @@ public class ServerDao implements AbstractDao<Server> {
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             statement = connection.prepareStatement(SQL_ADD_NEW_SERVER);
-            statement.setString(2, server.getServerName());
-            statement.setString(3, server.getDescription());
-            statement.setLong(1, server.getChronicle().getChronicleId());
+            statement.setString(1, server.getServerName());
+            statement.setString(2, server.getDescription());
+            statement.setLong(3, server.getChronicle().getChronicleId());
             statement.executeUpdate();
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
@@ -256,5 +270,71 @@ public class ServerDao implements AbstractDao<Server> {
         }
 
         return chronicles;
+    }
+
+    public List<Server> findServerInformationByName(String alienName) throws DaoException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        List<Alien>aliens=new ArrayList<>();
+        Alien alien=null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(SQL_TAKE_SERVER_INFORMATION_BY_NAME);
+            statement.setString(1, '%'+alienName+'%');
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                alien = new Alien();
+                alien.setAlienId(resultSet.getLong(ALIEN_ID));
+                alien.setAlienName(resultSet.getString(ALIEN_NAME));
+
+                alien.setImage(resultSet.getString("image"));
+
+                alien.setDescription(resultSet.getString(ALIEN_DESCRIPTION));
+                alien.setHomeland(new Homeland(resultSet.getLong(HOMELAND_ID), resultSet.getString(HOMELAND_NAME)));
+                alien.setAverageMark(resultSet.getDouble(AVERAGE_MARK));
+                aliens.add(alien);
+
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+
+            close(statement);
+            close(connection);
+        }
+        return aliens;
+    }
+
+    public List<Alien> takeAlienInformationByName(String alienName) throws DaoException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        List<Alien>aliens=new ArrayList<>();
+        Alien alien=null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(SQL_TAKE_ALIEN_INFORMATION_BY_NAME);
+            statement.setString(1, alienName);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                alien = new Alien();
+                alien.setAlienId(resultSet.getLong(ALIEN_ID));
+                alien.setAlienName(resultSet.getString(ALIEN_NAME));
+
+                alien.setImage(resultSet.getString("image"));
+
+                alien.setDescription(resultSet.getString(ALIEN_DESCRIPTION));
+                alien.setHomeland(new Homeland(resultSet.getLong(HOMELAND_ID), resultSet.getString(HOMELAND_NAME)));
+                alien.setAverageMark(resultSet.getDouble(AVERAGE_MARK));
+                aliens.add(alien);
+
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException(e);
+        } finally {
+
+            close(statement);
+            close(connection);
+        }
+        return aliens;
     }
 }

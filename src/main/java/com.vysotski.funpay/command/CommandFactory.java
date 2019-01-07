@@ -19,7 +19,7 @@ public class CommandFactory {
         try {
             currentCommand = CommandMap.getInstance().get(CommandType.valueOf(commandName));
         } catch (IllegalArgumentException e) {
-            logger.log(Level.ERROR, "wrong action");
+            logger.log(Level.ERROR, e);
             request.setAttribute("wrongAction", commandName + MessageManager.getProperty("message.wrongaction"));
 
         }

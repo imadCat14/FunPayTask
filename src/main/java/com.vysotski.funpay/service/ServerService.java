@@ -26,17 +26,7 @@ public class ServerService {
         }
         return servers;
     }
-    public List<Review>findReviews(long serverId) throws ServiceException{
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        ServerDao serverDao = daoFactory.getServerDao();
-        List<Review> reviews;
-        try {
-            reviews = serverDao.findServerReviews(serverId);
-        }catch (DAOException e){
-            throw new ServiceException(e);
-        }
-        return reviews;
-    }
+//    markServer
 
     public Server defineServer(long serverId) throws ServiceException{
         DAOFactory daoFactory = DAOFactory.getInstance();
@@ -89,21 +79,33 @@ public class ServerService {
 //        return servers;
 //    }
 
-    public Mark addMarkServer(long userId, long serverId, int serverMark) throws ServiceException {
-        if (serverMark==0) { //TODO nado range marks postavit'
-            throw new ServiceException("Incorrect mark data");
-        }
+    public Mark markServer(long userID, long serverId, int mark) throws ServiceException {
         DAOFactory daoFactory = DAOFactory.getInstance();
         ServerDao serverDao = daoFactory.getServerDao();
         Mark currentMark = new Mark();
         try {
-            currentMark.setUserId(userId);
-            currentMark.setServerId(serverId);
-            serverDao.markServer(currentMark);
-        }catch (DAOException e){
+            if (!serverDao.findMarkByUserIdAndServerId(userID, serverId)) {
+                currentMark.setUserId(userID);
+                currentMark.setServerId(serverId);
+                currentMark.setMark(mark);
+                serverDao.insertMark(currentMark);
+            }
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return currentMark;
+    }
+
+    public List<Review> findUserReviews(long userId) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UserDaoImpl userDaoImpl = daoFactory.getUserDaoImpl();
+        List<Review> reviews = new ArrayList<>();
+        try {
+            reviews = userDaoImpl.findUserReviews(userId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return reviews;
     }
 
     public List<Mark> findMarks(long serverId) throws ServiceException {

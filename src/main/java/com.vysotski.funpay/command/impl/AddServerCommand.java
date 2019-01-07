@@ -4,11 +4,15 @@ import com.vysotski.funpay.command.Command;
 import com.vysotski.funpay.command.CommandException;
 import com.vysotski.funpay.entity.Server;
 import com.vysotski.funpay.resource.ConfigurationManager;
+import com.vysotski.funpay.resource.MessageManager;
 import com.vysotski.funpay.service.ServerService;
 import com.vysotski.funpay.service.ServiceException;
+import org.apache.logging.log4j.Level;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
+import static com.vysotski.funpay.dao.AbstractDao.logger;
 
 public class AddServerCommand implements Command {
     private static final String PARAM_NAME_SERVER = "serverName";
@@ -20,25 +24,25 @@ public class AddServerCommand implements Command {
     public String execute(HttpServletRequest request) throws CommandException {
         String serverName = request.getParameter(PARAM_NAME_SERVER);
         String serverChronicle = request.getParameter(PARAM_NAME_CHRONICLE);
-        String serverDescription = request.getParameter(PARAM_NAME_DESCRIPTION);
-        String page;
+        String serverDescription = request.getParameter(PARAM_NAME_DESCRIPTION).replaceAll("<","");
+        String page = null;
+        String message;
         try {
             List<Server> servers = serverService.createServer(serverName, serverChronicle, serverDescription);
-            if (servers.isEmpty()) {
-                //request.setAttribute("server",servers);
-                page = ConfigurationManager.getProperty("path.page.new-sever-form-page");
-            } else {
-                servers = serverService.selectAll();
-                request.setAttribute("servers", servers);
-                page = ConfigurationManager.getProperty("path.page.admin-page");
-            }
-            // servers = alienService.selectAll();
-        } catch (ServiceException e) {
-            throw new CommandException(e);
+        if (servers.isEmpty()) {
+        message = MessageManager.getProperty("message.notAddServer");
+        request.setAttribute("infoData", message);
+        page = ConfigurationManager.getProperty("path.page.new-server-form-page");
+    } else {
+        servers = serverService.selectAll();
+        message = MessageManager.getProperty("message.addServer");
+        request.setAttribute("infoData", message);
+        request.setAttribute("servers", servers);
+        page = ConfigurationManager.getProperty("path.page.new-server-form-page");
+    }
+} catch (ServiceException e) {
+        logger.log(Level.ERROR, e);
         }
-        //TODO Massage if server did not add
-        // request.setAttribute("servers", servers);
-
         return page;
     }
 }

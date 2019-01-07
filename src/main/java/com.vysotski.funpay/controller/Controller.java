@@ -1,12 +1,10 @@
 package com.vysotski.funpay.controller;
 
 import com.vysotski.funpay.command.Command;
-import com.vysotski.funpay.command.CommandException;
 import com.vysotski.funpay.command.CommandFactory;
 import com.vysotski.funpay.pool.ConnectionPool;
 import com.vysotski.funpay.resource.ConfigurationManager;
 import com.vysotski.funpay.resource.MessageManager;
-import com.vysotski.funpay.service.ServiceException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,20 +18,12 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
+        processRequest(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
+        processRequest(request, response);
     }
 
     public void destroy() {
@@ -41,15 +31,11 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ServiceException {
+            throws ServletException, IOException {
         String page = null;
         CommandFactory client = new CommandFactory();
         Command command = client.defineCommand(request);
-        try {
-            page = command.execute(request);
-        } catch (CommandException e) {
-            e.printStackTrace();
-        }
+        page = command.execute(request);
         if (page != null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);

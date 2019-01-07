@@ -10,25 +10,28 @@ import org.apache.logging.log4j.Level;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.vysotski.funpay.dao.AbstractDao.logger;
 
+public class ShowServerByNameCommand implements Command {
 
-public class ShowServersCommand implements Command {
     private static ServerService serverService = new ServerService();
-
+    private static final String PARAM_SERVER_NAME = "serverName";
+    String page=null;
     @Override
     public String execute(HttpServletRequest request) {
-        String page = null;
+        String serverName = request.getParameter(PARAM_SERVER_NAME).trim();
+        List<Server> servers=new ArrayList<>();
         HttpSession session = request.getSession();
         RoleType userType= (RoleType) session.getAttribute("userRole");
-        try {
-            List<Server> servers = serverService.selectAll();
+        try{
+            servers= serverService.findServersByNameFragment(serverName);
             request.setAttribute("servers", servers);
-            page = userType==RoleType.ADMIN?ConfigurationManager.getProperty("path.page.admin-page"):ConfigurationManager.getProperty("path.page.main-page");
-            // page = ConfigurationManager.getProperty("path.page.admin-page");
-        } catch (ServiceException e) {
+            page = userType==RoleType.ADMIN? ConfigurationManager.getProperty("path.page.admin-page"):ConfigurationManager.getProperty("path.page.main-page");
+        }
+        catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
         return page;

@@ -14,8 +14,6 @@ ${user.login}, ${user.userRole}, hello!
 
 ${user.login},  hello!
 
-
-
 <table>
     <caption><h1><fmt:message key="label.tableReviewsName"/></h1></caption>
     <form action="controller">
